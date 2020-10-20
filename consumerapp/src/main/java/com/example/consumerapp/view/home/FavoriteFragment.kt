@@ -1,7 +1,10 @@
 package com.example.consumerapp.view.home
 
 import android.content.ContentResolver
+import android.database.ContentObserver
 import android.os.Bundle
+import android.os.Handler
+import android.os.HandlerThread
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,7 +24,6 @@ import kotlinx.coroutines.launch
 
 class FavoriteFragment : Fragment() {
     private var recyclerView: RecyclerView? = null
-    // private lateinit var favoriteHelper: FavoriteHelper
     private lateinit var resolver: ContentResolver
 
     override fun onCreateView(
@@ -37,16 +39,16 @@ class FavoriteFragment : Fragment() {
         recyclerView?.setHasFixedSize(true)
         recyclerView?.layoutManager = LinearLayoutManager(context)
 
-//        val handlerThread = HandlerThread("DataObserver")
-//        handlerThread.start()
-//        val handler = Handler(handlerThread.looper)
-//        val myObserver = object : ContentObserver(handler) {
-//            override fun onChange(self: Boolean) {
-//                getData()
-//            }
-//        }
+        val handlerThread = HandlerThread("DataObserver")
+        handlerThread.start()
+        val handler = Handler(handlerThread.looper)
+        val myObserver = object : ContentObserver(handler) {
+            override fun onChange(self: Boolean) {
+                getData()
+            }
+        }
         resolver = requireContext().contentResolver
-//        resolver.registerContentObserver(CONTENT_URI, true, myObserver)
+        resolver.registerContentObserver(CONTENT_URI, true, myObserver)
 
         if (savedInstanceState == null) {
             getData()

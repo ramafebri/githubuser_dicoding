@@ -15,7 +15,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.githubuser.R
 import com.example.githubuser.adapter.FavoriteAdapter
 import com.example.githubuser.database.DatabaseContract.FavoriteColumns.Companion.CONTENT_URI
-import com.example.githubuser.database.FavoriteHelper
 import com.example.githubuser.helper.MappingHelper
 import kotlinx.android.synthetic.main.fragment_favorite.*
 import kotlinx.coroutines.Dispatchers
@@ -25,7 +24,6 @@ import kotlinx.coroutines.launch
 
 class FavoriteFragment : Fragment() {
     private var recyclerView: RecyclerView? = null
-    private lateinit var favoriteHelper: FavoriteHelper
     private lateinit var resolver: ContentResolver
 
     override fun onCreateView(
@@ -55,12 +53,6 @@ class FavoriteFragment : Fragment() {
         if (savedInstanceState == null) {
             getData()
         }
-    }
-
-    private fun initiateDatabase(){
-        favoriteHelper = context?.let { FavoriteHelper.getInstance(it) }!!
-        favoriteHelper.open()
-        getData()
     }
 
     private fun getData() {

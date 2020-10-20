@@ -4,7 +4,6 @@ import android.content.ContentValues
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -17,7 +16,6 @@ import com.example.githubuser.R
 import com.example.githubuser.adapter.DetailPagerAdapter
 import com.example.githubuser.database.DatabaseContract
 import com.example.githubuser.database.DatabaseContract.FavoriteColumns.Companion.CONTENT_URI
-import com.example.githubuser.database.FavoriteHelper
 import com.example.githubuser.helper.MappingHelper
 import com.example.githubuser.model.DetailGituser
 import com.example.githubuser.model.FavoriteGituser
@@ -31,7 +29,6 @@ import kotlinx.coroutines.launch
 
 class DetailActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var gituserViewModel: GituserViewModel
-    private lateinit var favoriteHelper: FavoriteHelper
     private lateinit var uriWithId: Uri
     private lateinit var uriWithUsername: Uri
 
@@ -51,10 +48,8 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
 
         changeProgressBar(true)
         initiateViewPager()
-        initiateDatabase()
 
         data = intent.getParcelableExtra(EXTRA_DATA)
-//        Log.i("MainActivity", data.toString())
         if (data != null) {
             data!!.login?.let { initiateViewModel(it) }
             data!!.login?.let { checkExistingData(it) }
@@ -66,11 +61,6 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
         val detailPagerAdapter = DetailPagerAdapter(this, supportFragmentManager)
         view_pager.adapter = detailPagerAdapter
         tabs.setupWithViewPager(view_pager)
-    }
-
-    private fun initiateDatabase(){
-        favoriteHelper = FavoriteHelper.getInstance(applicationContext)
-        favoriteHelper.open()
     }
 
     private fun initiateViewModel(username: String) {
@@ -93,21 +83,10 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
             val cursor = contentResolver.query(uriWithUsername, null, username, null, null)
             if (cursor != null && cursor.moveToFirst()) {
                 favoriteGituser = MappingHelper.mapCursorToObject(cursor)
-                // Log.i("MainActivity", favoriteGituser.toString())
                 btn_fav.setImageResource(R.drawable.ic_favorite_pink_24dp)
                 isExist = true
                 cursor.close()
             }
-//            val result = favoriteHelper.getByUsername(username)
-//
-//            Log.i("MainActivity", result.count.toString())
-//            if(result.count > 0){
-//                result.moveToFirst()
-//                favoriteId = result.getString(result.getColumnIndex(_ID))
-//                Log.i("MainActivity", favoriteId)
-//                btn_fav.setImageResource(R.drawable.ic_favorite_pink_24dp)
-//                isExist = true
-//            }
         }
     }
 
@@ -147,9 +126,7 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
             if(isExist){
                 uriWithId = Uri.parse("$CONTENT_URI/${favoriteGituser?.id}")
                 val result = contentResolver.delete(uriWithId, null, null)
-                Log.i("MainActivity", result.toString())
 
-//                val result = favoriteHelper.deleteById(favoriteId).toLong()
                 if (result > 0) {
                     Toast.makeText(this@DetailActivity, R.string.success_delete, Toast.LENGTH_SHORT).show()
                     btn_fav.setImageResource(R.drawable.ic_favorite_black_24dp)
@@ -168,7 +145,6 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                 val result = contentResolver.insert(CONTENT_URI, values)
                 if (result != null) {
                     val resultSize = result.lastPathSegment?.toLong()
-                    Log.i("MainActivity", result.lastPathSegment.toString())
                     if (resultSize != null) {
                         if (resultSize > 0) {
                             Toast.makeText(this@DetailActivity, R.string.success_insert, Toast.LENGTH_SHORT).show()
@@ -180,7 +156,6 @@ class DetailActivity : AppCompatActivity(), View.OnClickListener {
                         }
                     }
                 }
-//                val result = favoriteHelper.insert(values)
             }
         }
     }

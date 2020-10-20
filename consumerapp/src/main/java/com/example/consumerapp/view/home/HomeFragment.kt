@@ -59,11 +59,11 @@ class HomeFragment : Fragment() {
         gituserViewModel.setGituser()
         gituserViewModel.getGituser().observe(viewLifecycleOwner, { gituserItems ->
             progressBar.visibility = View.GONE
-            val count = gituserItems.count()
-            if(count==0){
-                Toast.makeText(context, resources.getString(R.string.data_not_found), Toast.LENGTH_SHORT).show()
-            }
-            if (gituserItems != null) {
+            if(gituserItems != null){
+                val count = gituserItems.count()
+                if(count==0){
+                    Toast.makeText(context, resources.getString(R.string.data_not_found), Toast.LENGTH_SHORT).show()
+                }
                 val cardViewGituserAdapter = GituserAdapter(gituserItems)
                 recyclerView?.adapter = cardViewGituserAdapter
             }

@@ -39,4 +39,6 @@
     <string name="alarm_message">Ayo kembali ke aplikasi</string>
     <string name="alarm_setup">Alarm berulang diaktifkan</string>
     <string name="alarm_cancel">Alarm berulang dinonaktifkan</string>
+    <string name="appwidget_text">FAVORIT GITUSER</string>
+    <string name="add_widget">Add widget</string>
 </resources>

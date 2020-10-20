@@ -11,7 +11,6 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.githubuser.R
 import com.example.githubuser.helper.MappingHelper.convertToListGituser
 import com.example.githubuser.model.FavoriteGituser
-import com.example.githubuser.model.ListGituser
 import com.example.githubuser.view.detail.DetailActivity
 import kotlinx.android.synthetic.main.item_cardview_followers.view.*
 

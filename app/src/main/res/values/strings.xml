@@ -37,4 +37,6 @@
     <string name="alarm_message">Lets go back to application</string>
     <string name="alarm_setup">Repeating alarm set up</string>
     <string name="alarm_cancel">Repeating alarm cancel</string>
+    <string name="appwidget_text">FAVORIT GITUSER</string>
+    <string name="add_widget">Add widget</string>
 </resources>

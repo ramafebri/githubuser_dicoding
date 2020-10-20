@@ -43,7 +43,6 @@ class DetailActivity : AppCompatActivity(){
         initiateViewPager()
 
         data = intent.getParcelableExtra(EXTRA_DATA)
-//        Log.i("MainActivity", data.toString())
         if (data != null) {
             data!!.login?.let { initiateViewModel(it) }
             data!!.login?.let { checkExistingData(it) }
