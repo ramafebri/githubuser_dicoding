@@ -14,7 +14,8 @@
         android:layout_marginTop="16dp"
         android:text="@string/search_gituser"
         android:textSize="18sp"
-        android:textStyle="bold" />
+        android:textStyle="bold"
+        android:layout_marginLeft="16dp" />
 
     <SearchView
         android:id="@+id/searchView"
@@ -40,6 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:foregroundTint="@color/colorPrimaryDark"
-        android:progressTint="@color/colorPrimaryDark" />
+        android:progressTint="@color/colorPrimaryDark"
+        tools:targetApi="lollipop" />
 
 </RelativeLayout>

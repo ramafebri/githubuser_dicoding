@@ -3,7 +3,6 @@
     <string name="name_gitusers">Name</string>
     <string name="avatar_gitusers">Avatar</string>
     <string name="company_gitusers">Company</string>
-    <string name="repository_gitusers">Repository:</string>
     <string name="repository1_gitusers">Repository</string>
     <string name="location_gitusers">Location</string>
     <string name="followers_gitusers">Followers</string>
@@ -17,10 +16,8 @@
     <string name="search_gituser">Search Gituser</string>
     <string name="data_not_found">Data not found</string>
 
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="type">Type: </string>
     <string name="type_name">Type Name</string>
-    <string name="git_key">f4b4147f402253e043ff0cd1050bda4bdf1e029b</string>
 
     <string name="change_language_settings">Language Settings</string>
     <string name="title_activity_main">MainActivity</string>
@@ -30,7 +27,6 @@
     <string name="success_delete">Success delete data</string>
     <string name="success_insert">Success insert data</string>
     <string name="fail_delete">Fail delete data</string>
-    <string name="fail_insert">Fail insert data</string>
     <string name="title_activity_alarm">Alarm</string>
     <string name="alarm_9_00_am">Alarm 9.00 AM</string>
     <string name="alarm">Alarm</string>
@@ -38,5 +34,4 @@
     <string name="alarm_setup">Repeating alarm set up</string>
     <string name="alarm_cancel">Repeating alarm cancel</string>
     <string name="appwidget_text">FAVORIT GITUSER</string>
-    <string name="add_widget">Add widget</string>
 </resources>

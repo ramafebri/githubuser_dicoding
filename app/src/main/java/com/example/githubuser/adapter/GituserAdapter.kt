@@ -2,15 +2,13 @@ package com.example.githubuser.adapter
 
 import android.content.Intent
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.githubuser.R
-import com.example.githubuser.view.detail.DetailActivity
+import com.example.githubuser.databinding.ItemCardviewGituserBinding
 import com.example.githubuser.model.ListGituser
-import kotlinx.android.synthetic.main.item_cardview_gituser.view.*
+import com.example.githubuser.view.detail.DetailActivity
 
 class GituserAdapter (private val listGitUser: List<ListGituser>) : RecyclerView.Adapter<GituserAdapter.CardViewViewHolder>() {
 
@@ -18,7 +16,7 @@ class GituserAdapter (private val listGitUser: List<ListGituser>) : RecyclerView
         parent: ViewGroup,
         viewType: Int
     ): CardViewViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_cardview_gituser, parent, false)
+        val view = ItemCardviewGituserBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return CardViewViewHolder(view)
     }
 
@@ -28,19 +26,19 @@ class GituserAdapter (private val listGitUser: List<ListGituser>) : RecyclerView
 
     override fun getItemCount(): Int = listGitUser.size
 
-    inner class CardViewViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class CardViewViewHolder(private val binding: ItemCardviewGituserBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(gituser: ListGituser) {
-            with(itemView) {
-                Glide.with(itemView.context)
+            with(binding) {
+                Glide.with(root.context)
                     .load(gituser.avatarUrl)
                     .apply(RequestOptions().override(150, 220))
-                    .into(img_item_photo)
-                tv_item_name.text = gituser.login
-                tv_item_type_name.text = gituser.type
-                itemView.setOnClickListener {
-                    val moveToDetail = Intent(itemView.context, DetailActivity::class.java)
+                    .into(imgItemPhoto)
+                tvItemName.text = gituser.login
+                tvItemTypeName.text = gituser.type
+                root.setOnClickListener {
+                    val moveToDetail = Intent(root.context, DetailActivity::class.java)
                     moveToDetail.putExtra(DetailActivity.EXTRA_DATA, gituser)
-                    itemView.context.startActivity(moveToDetail)
+                    root.context.startActivity(moveToDetail)
                 }
             }
         }

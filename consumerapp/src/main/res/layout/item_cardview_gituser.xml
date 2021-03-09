@@ -35,7 +35,9 @@
         card_view:layout_constraintHorizontal_bias="0.0"
         card_view:layout_constraintStart_toEndOf="@+id/img_item_photo"
         card_view:layout_constraintTop_toTopOf="parent"
-        tools:text="@string/name_gitusers" />
+        tools:text="@string/name_gitusers"
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/img_item_photo" />
 
     <TextView
         android:id="@+id/tv_item_company"
@@ -51,7 +53,8 @@
         card_view:layout_constraintHorizontal_bias="0.0"
         card_view:layout_constraintStart_toEndOf="@+id/img_item_photo"
         card_view:layout_constraintTop_toBottomOf="@+id/tv_item_name"
-        />
+        android:layout_marginLeft="8dp"
+        android:layout_toRightOf="@id/img_item_photo" />
 
     <TextView
         android:id="@+id/tv_item_type"
@@ -65,7 +68,8 @@
         card_view:layout_constraintBottom_toBottomOf="parent"
         card_view:layout_constraintStart_toEndOf="@+id/img_item_photo"
         card_view:layout_constraintTop_toBottomOf="@+id/tv_item_company"
-        card_view:layout_constraintVertical_bias="0.173" />
+        card_view:layout_constraintVertical_bias="0.173"
+        android:layout_marginLeft="8dp" />
 
     <TextView
         android:id="@+id/tv_item_type_name"
@@ -80,5 +84,6 @@
         card_view:layout_constraintHorizontal_bias="0.0"
         card_view:layout_constraintStart_toEndOf="@+id/tv_item_type"
         card_view:layout_constraintTop_toTopOf="@+id/tv_item_type"
-        card_view:layout_constraintVertical_bias="0.0" />
+        card_view:layout_constraintVertical_bias="0.0"
+        android:layout_marginLeft="5dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

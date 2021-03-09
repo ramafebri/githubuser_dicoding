@@ -7,8 +7,4 @@
         <item name="colorAccent">#E91E63</item>
     </style>
 
-    <style name="generalnotitle" parent="AppTheme">
-        <item name="android:windowNoTitle">true</item>
-    </style>
-
 </resources>

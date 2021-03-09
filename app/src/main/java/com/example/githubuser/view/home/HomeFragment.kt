@@ -9,63 +9,66 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.githubuser.R
 import com.example.githubuser.adapter.GituserAdapter
-import com.example.githubuser.viewmodel.GituserViewModel
-import kotlinx.android.synthetic.main.fragment_home.*
+import com.example.githubuser.databinding.FragmentHomeBinding
+import com.example.githubuser.viewmodel.MainViewModel
 
 class HomeFragment : Fragment() {
-    private var recyclerView: RecyclerView? = null
-    private lateinit var gituserViewModel: GituserViewModel
+    private lateinit var fragmentHomeBinding: FragmentHomeBinding
+    private lateinit var mainViewModel: MainViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_home, container, false)
+    ): View {
+        val binding = FragmentHomeBinding.inflate(inflater, container, false)
+        fragmentHomeBinding = binding
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        recyclerView = view.findViewById(R.id.rv_gituser_fragment)
-        recyclerView?.setHasFixedSize(true)
-        recyclerView?.layoutManager = LinearLayoutManager(context)
-
+        with(fragmentHomeBinding){
+            rvGituserFragment.setHasFixedSize(true)
+            rvGituserFragment.layoutManager = LinearLayoutManager(context)
+        }
         initiateViewModel()
         initiateSearchView()
     }
 
     private fun initiateSearchView(){
-        searchView.queryHint = resources.getString(R.string.username_gitusers)
-        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                progressBar.visibility = View.VISIBLE
-                gituserViewModel.searchGituser(query)
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if(newText.isNullOrEmpty()){
-                    gituserViewModel.setGituser()
+        with(fragmentHomeBinding){
+            searchView.queryHint = resources.getString(R.string.username_gitusers)
+            searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    progressBar.visibility = View.VISIBLE
+                    mainViewModel.searchGituser(query)
+                    return false
                 }
-                return false
-            }
-        })
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    if(newText.isNullOrEmpty()){
+                        mainViewModel.setGituser()
+                    }
+                    return false
+                }
+            })
+        }
     }
 
     private fun initiateViewModel() {
-        gituserViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(GituserViewModel::class.java)
-        gituserViewModel.setGituser()
-        gituserViewModel.getGituser().observe(viewLifecycleOwner, { gituserItems ->
-            progressBar.visibility = View.GONE
+        mainViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(MainViewModel::class.java)
+        mainViewModel.setGituser()
+        mainViewModel.getGituser().observe(viewLifecycleOwner, { gituserItems ->
+            fragmentHomeBinding.progressBar.visibility = View.GONE
             if(gituserItems != null){
                 val count = gituserItems.count()
                 if(count==0){
-                    Toast.makeText(context, resources.getString(R.string.data_not_found), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(context, getString(R.string.data_not_found), Toast.LENGTH_SHORT).show()
                 }
                 val cardViewGituserAdapter = GituserAdapter(gituserItems)
-                recyclerView?.adapter = cardViewGituserAdapter
+                fragmentHomeBinding.rvGituserFragment.adapter = cardViewGituserAdapter
             }
         })
     }

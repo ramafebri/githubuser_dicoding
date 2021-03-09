@@ -15,7 +15,7 @@ class DetailPagerAdapter(private val mContext: Context, fm: FragmentManager) : F
     private val TAB_TITLES = intArrayOf(R.string.followers_gitusers, R.string.following_gitusers)
 
     override fun getCount(): Int {
-        return 2
+        return TAB_TITLES.size
     }
 
     override fun getItem(position: Int): Fragment {
@@ -28,7 +28,7 @@ class DetailPagerAdapter(private val mContext: Context, fm: FragmentManager) : F
     }
 
     @Nullable
-    override fun getPageTitle(position: Int): CharSequence? {
+    override fun getPageTitle(position: Int): CharSequence {
         return mContext.resources.getString(TAB_TITLES[position])
     }
 }

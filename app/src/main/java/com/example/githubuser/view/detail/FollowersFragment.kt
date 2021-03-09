@@ -7,39 +7,43 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.githubuser.R
-import com.example.githubuser.adapter.FollowersAdapter
-import com.example.githubuser.viewmodel.GituserViewModel
+import com.example.githubuser.adapter.GituserAdapter
+import com.example.githubuser.databinding.FragmentFollowersListBinding
+import com.example.githubuser.viewmodel.DetailViewModel
 
 class FollowersFragment : Fragment() {
-    private var recyclerView: RecyclerView? = null
-    private lateinit var gituserViewModel: GituserViewModel
+    private lateinit var fragmentFollowersListBinding: FragmentFollowersListBinding
+    private lateinit var detailViewModel: DetailViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_followers_list, container, false)
+    ): View {
+        val binding = FragmentFollowersListBinding.inflate(inflater, container, false)
+        fragmentFollowersListBinding = binding
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        recyclerView = view.findViewById(R.id.rv_fragment_followers)
-        recyclerView?.setHasFixedSize(true)
-        recyclerView?.layoutManager = LinearLayoutManager(context)
+        with(fragmentFollowersListBinding.rvFragmentFollowers) {
+            layoutManager = LinearLayoutManager(context)
+            setHasFixedSize(true)
+        }
 
         initiateViewModel()
     }
 
     private fun initiateViewModel() {
-        gituserViewModel = ViewModelProviders.of(requireActivity()).get(
-            GituserViewModel::class.java
-        )
-        gituserViewModel.getUsernameGituser().observe(viewLifecycleOwner, { gituserUsername ->
-            gituserViewModel.setFollowersGituser(gituserUsername)
-        })
-        gituserViewModel.getFollowersGituser().observe(viewLifecycleOwner, { gituserFollowersItems ->
-            recyclerView?.adapter = FollowersAdapter(gituserFollowersItems)
-        })
+        if (activity != null) {
+            detailViewModel = ViewModelProviders.of(requireActivity()).get(
+                DetailViewModel::class.java
+            )
+            detailViewModel.getUsernameGituser().observe(viewLifecycleOwner, { gituserUsername ->
+                detailViewModel.setFollowersGituser(gituserUsername)
+            })
+            detailViewModel.getFollowersGituser().observe(viewLifecycleOwner, { gituserFollowersItems ->
+                fragmentFollowersListBinding.rvFragmentFollowers.adapter = GituserAdapter(gituserFollowersItems)
+            })
+        }
     }
 }

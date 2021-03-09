@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="16dp"
-    tools:context="com.example.githubuser.view.settings.AlarmActivity">
+    tools:context="com.example.consumerapp.view.settings.AlarmActivity">
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/switch_alarm"
