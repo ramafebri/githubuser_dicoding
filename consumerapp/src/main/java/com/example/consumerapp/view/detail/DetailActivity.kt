@@ -3,8 +3,6 @@ package com.example.consumerapp.view.detail
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.bumptech.glide.Glide
@@ -12,18 +10,19 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.consumerapp.R
 import com.example.consumerapp.adapter.DetailPagerAdapter
 import com.example.consumerapp.database.DatabaseContract.FavoriteColumns.Companion.CONTENT_URI
+import com.example.consumerapp.databinding.ActivityDetailBinding
 import com.example.consumerapp.helper.MappingHelper
 import com.example.consumerapp.model.DetailGituser
 import com.example.consumerapp.model.FavoriteGituser
 import com.example.consumerapp.model.ListGituser
-import com.example.consumerapp.viewmodel.GituserViewModel
-import kotlinx.android.synthetic.main.activity_detail.*
+import com.example.consumerapp.viewmodel.DetailViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
 class DetailActivity : AppCompatActivity(){
-    private lateinit var gituserViewModel: GituserViewModel
+    private lateinit var detailViewModel: DetailViewModel
+    private lateinit var binding: ActivityDetailBinding
     private lateinit var uriWithUsername: Uri
 
     private var favoriteGituser: FavoriteGituser? = null
@@ -35,15 +34,16 @@ class DetailActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detail)
-        supportActionBar?.title = resources.getString(R.string.github_user_detail)
-        supportActionBar?.elevation = 0f
+        binding = ActivityDetailBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        supportActionBar?.title = getString(R.string.github_user_detail)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         changeProgressBar(true)
         initiateViewPager()
 
         data = intent.getParcelableExtra(EXTRA_DATA)
-//        Log.i("MainActivity", data.toString())
         if (data != null) {
             data!!.login?.let { initiateViewModel(it) }
             data!!.login?.let { checkExistingData(it) }
@@ -52,20 +52,22 @@ class DetailActivity : AppCompatActivity(){
 
     private fun initiateViewPager(){
         val detailPagerAdapter = DetailPagerAdapter(this, supportFragmentManager)
-        view_pager.adapter = detailPagerAdapter
-        tabs.setupWithViewPager(view_pager)
+        with(binding){
+            viewPager.adapter = detailPagerAdapter
+            tabs.setupWithViewPager(binding.viewPager)
+        }
     }
 
     private fun initiateViewModel(username: String) {
-        gituserViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
-            GituserViewModel::class.java
+        detailViewModel = ViewModelProvider(this, ViewModelProvider.NewInstanceFactory()).get(
+            DetailViewModel::class.java
         )
-        gituserViewModel.getLoadingDetail().observe(this, { loading ->
+        detailViewModel.getLoadingDetail().observe(this, { loading ->
             changeProgressBar(loading)
         })
-        gituserViewModel.setUsernameGituser(username)
-        gituserViewModel.setDetailGituser(username)
-        gituserViewModel.getDetailGituser().observe(this, { gituserDetailItems ->
+        detailViewModel.setUsernameGituser(username)
+        detailViewModel.setDetailGituser(username)
+        detailViewModel.getDetailGituser().observe(this, { gituserDetailItems ->
             putDataToView(gituserDetailItems)
         })
     }
@@ -83,32 +85,30 @@ class DetailActivity : AppCompatActivity(){
 
     private fun changeProgressBar(loading: Boolean){
         if(loading){
-            progressBar_detail.visibility = View.VISIBLE
+            binding.progressBarDetail.visibility = View.VISIBLE
+        } else {
+            binding.progressBarDetail.visibility = View.GONE
         }
-        progressBar_detail.visibility = View.GONE
     }
 
     private fun putDataToView(data: DetailGituser){
-        val tvName: TextView = findViewById(R.id.name_detail)
-        val tvFollowers: TextView = findViewById(R.id.followers_detail)
-        val tvFollowing: TextView = findViewById(R.id.following_detail)
-        val tvUsername: TextView = findViewById(R.id.username_detail)
-        val tvCompany: TextView = findViewById(R.id.company_detail)
-        val tvLocation: TextView = findViewById(R.id.location_detail)
-        val tvRepository: TextView = findViewById(R.id.repository_detail)
-        val imgPhoto: ImageView = findViewById(R.id.avatar_detail)
+        with(binding){
+            nameDetail.text = data.name
+            followersDetail.text = data.followers.toString()
+            followingDetail.text = data.following.toString()
+            usernameDetail.text = data.login
+            companyDetail.text = data.company
+            repositoryDetail.text = data.publicRepos.toString()
+            locationDetail.text = data.location
+            Glide.with(root.context)
+                .load(data.avatarUrl)
+                .apply(RequestOptions().override(180, 180))
+                .into(avatarDetail)
+        }
+    }
 
-        tvName.text = data.name
-        tvFollowers.text = data.followers.toString()
-        tvFollowing.text = data.following.toString()
-        tvUsername.text = data.login
-        tvCompany.text = data.company
-        tvRepository.text = data.publicRepos.toString()
-        tvLocation.text = data.location
-
-        Glide.with(this)
-            .load(data.avatarUrl)
-            .apply(RequestOptions().override(180, 180))
-            .into(imgPhoto)
+    override fun onSupportNavigateUp(): Boolean {
+        onBackPressed()
+        return true
     }
 }

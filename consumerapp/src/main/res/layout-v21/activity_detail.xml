@@ -76,8 +76,7 @@
                     android:textSize="14sp"
                     android:layout_marginEnd="16dp"
                     android:textColor="@android:color/black"
-                    android:text="@string/following_gitusers"
-                    android:layout_marginRight="16dp" />
+                    android:text="@string/following_gitusers" />
                 <TextView
                     android:id="@+id/following_detail"
                     android:layout_width="match_parent"

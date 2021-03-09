@@ -32,4 +32,8 @@
         </activity>
     </application>
 
+    <queries>
+        <package android:name="com.example.githubuser" />
+    </queries>
+
 </manifest>

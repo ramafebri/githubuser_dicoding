@@ -22,5 +22,5 @@ class NetworkConfig {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-    fun getService() = getRetrofit().create(Api::class.java)
+    fun getService(): Api = getRetrofit().create(Api::class.java)
 }

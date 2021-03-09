@@ -62,14 +62,12 @@ class FavoriteProvider : ContentProvider() {
         uri: Uri, projection: Array<String>?, selection: String?,
         selectionArgs: Array<String>?, sortOrder: String?
     ): Cursor? {
-        val cursor: Cursor?
-        when (sUriMatcher.match(uri)) {
-            FAVORITE -> cursor = favoriteHelper.getAll()
-            FAVORITE_USERNAME -> cursor = selection?.let { favoriteHelper.getByUsername(it) }
-            FAVORITE_ID -> cursor = favoriteHelper.getById(uri.lastPathSegment.toString())
-            else -> cursor = favoriteHelper.getByUsername(uri.lastPathSegment.toString())
+        return when (sUriMatcher.match(uri)) {
+            FAVORITE -> favoriteHelper.getAll()
+            FAVORITE_USERNAME -> selection?.let { favoriteHelper.getByUsername(it) }
+            FAVORITE_ID -> favoriteHelper.getById(uri.lastPathSegment.toString())
+            else -> favoriteHelper.getByUsername(uri.lastPathSegment.toString())
         }
-        return cursor
     }
 
     override fun update(

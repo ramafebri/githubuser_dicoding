@@ -2,29 +2,30 @@ package com.example.consumerapp.view.settings
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.SwitchCompat
-import com.example.consumerapp.notification.AlarmReceiver
 import com.example.consumerapp.R
+import com.example.consumerapp.databinding.ActivityAlarmBinding
+import com.example.consumerapp.notification.AlarmReceiver
 
 class AlarmActivity : AppCompatActivity(){
     private lateinit var alarmReceiver: AlarmReceiver
+    private lateinit var binding: ActivityAlarmBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_alarm)
+        binding = ActivityAlarmBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         alarmReceiver = AlarmReceiver()
 
-        val toggle: SwitchCompat = findViewById(R.id.switch_alarm)
-        toggle.isChecked = alarmReceiver.isAlarmSet(this)
-        toggle.setOnCheckedChangeListener { _, isChecked ->
+        binding.switchAlarm.isChecked = alarmReceiver.isAlarmSet(this)
+        binding.switchAlarm.setOnCheckedChangeListener { _, isChecked ->
             if (isChecked) {
                 val repeatTime = "09:00"
-                val repeatMessage = resources.getString(R.string.alarm_message)
-                val messageToast = resources.getString(R.string.alarm_setup)
+                val repeatMessage = getString(R.string.alarm_message)
+                val messageToast = getString(R.string.alarm_setup)
                 alarmReceiver.setRepeatingAlarm(this, repeatTime, repeatMessage, messageToast)
             } else {
-                val messageToast = resources.getString(R.string.alarm_cancel)
+                val messageToast = getString(R.string.alarm_cancel)
                 alarmReceiver.cancelAlarm(this, messageToast)
             }
         }

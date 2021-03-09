@@ -6,7 +6,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 class NetworkConfig {
-    private val baseUrl = " https://api.github.com/"
+    private val baseUrl = "https://api.github.com/"
     // set interceptor
     private fun getInterceptor() : OkHttpClient {
         val logging = HttpLoggingInterceptor()
@@ -22,5 +22,5 @@ class NetworkConfig {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
     }
-    fun getService() = getRetrofit().create(Api::class.java)
+    fun getService(): Api = getRetrofit().create(Api::class.java)
 }
