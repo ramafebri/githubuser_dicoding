@@ -9,3 +9,7 @@ Projek untuk kelulusan Belajar Fundamental Aplikasi Android Dicoding </br>
 4. Menggunakan Alarm Manager untuk mengirimkan notifikasi
 5. Menggunakan Stack Widget
 
+## UI
+![Image of app](/ss/Screenshot_1.png)>![Image of app](/ss/Screenshot_2.png)
+![Image of app](/ss/Screenshot_3.png)>![Image of app](/ss/Screenshot_4.png)
+
